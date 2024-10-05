@@ -1,0 +1,138 @@
+/* Cool Dark-themed style for the application */
+body {
+  background: linear-gradient(135deg, #121212, #1e1e1e);
+  color: #e0e0e0;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* Main App Container */
+.App {
+  text-align: center;
+  margin: 20px auto;
+  padding: 30px;
+  max-width: 600px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #1e1e1e, #333333);
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.7), -5px -5px 15px rgba(255, 255, 255, 0.05);
+  transition: transform 0.3s;
+}
+
+.App:hover {
+  transform: scale(1.02);
+}
+
+/* Form Styling */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(42, 42, 42, 0.9);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+}
+
+/* Label Styling */
+label {
+  margin: 15px 0;
+  font-size: 1.2em;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+/* Input Field Styling */
+input, select {
+  margin-top: 5px;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(145deg, #333, #444);
+  color: #e0e0e0;
+  width: 300px;
+  box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.7), inset -5px -5px 10px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border: 2px solid #1e90ff; /* Light blue border for focus */
+  background: linear-gradient(145deg, #444, #555);
+}
+
+/* Button Styling */
+button {
+  margin-top: 25px;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(145deg, #007acc, #005f99);
+  color: #ffffff;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 15px rgba(0, 122, 204, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+button:hover {
+  background: linear-gradient(145deg, #0088ff, #0066cc);
+  box-shadow: 0 12px 20px rgba(0, 122, 204, 0.6);
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* Quarter-Mile Time Result */
+h2 {
+  margin-top: 30px;
+  color: #006BFF; /* Bright neon green for result */
+  font-weight: bold;
+  font-size: 1.7em;
+  text-shadow: 0 0 20px #006BFF;
+  animation: glow 1.5s infinite alternate;
+}
+
+/* Glow Animation */
+@keyframes glow {
+  0% {
+      text-shadow: 0 0 10px #006BFF, 0 0 20px #006BFF, 0 0 30px #006BFF;
+  }
+  100% {
+      text-shadow: 0 0 20px #3E3E3E, 0 0 30px #3E3E3E, 0 0 40px #3E3E3E;
+      
+  }
+}
+
+/* Form Fieldset */
+fieldset {
+  border: 2px solid #444;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background: linear-gradient(145deg, #1e1e1e, #292929);
+  box-shadow: inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .App {
+      padding: 15px;
+  }
+
+  form {
+      width: 90%;
+      padding: 15px;
+  }
+
+  input, select {
+      width: 100%;
+  }
+
+  button {
+      width: 100%;
+  }
+}
