@@ -1,68 +1,140 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import './App.css';
+import ReactionTimeModal from './components/ReactionTimeModal';
 
 function App() {
-  const [powerHp, setPowerHp] = useState('');
-  const [weightLb, setWeightLb] = useState('');
-  const [tireSizeInches, setTireSizeInches] = useState('');
-  const [nitrousShot, setNitrousShot] = useState('');
-  const [engineBuild, setEngineBuild] = useState('');
-  const [result, setResult] = useState(null);
+  const [power, setPower] = useState('');
+  const [weight, setWeight] = useState('');
+  const [tireSize, setTireSize] = useState('');
+  const [nitrous, setNitrous] = useState('');
+  const [engineBuild, setEngineBuild] = useState(''); // Default to 'Choose'
+  const [performanceResult, setPerformanceResult] = useState(null);
+  const [reactionTime, setReactionTime] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSubmit = async (e) => {
+  // Function to handle recording of reaction time
+  const handleReactionRecorded = (time) => {
+    setReactionTime(time);
+  };
+
+  // Function to handle opening the modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to handle closing the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // Function to handle form submission and calculate performance
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('http://127.0.0.1:5000/calculate', {
-        power_hp: parseFloat(powerHp),
-        weight_lb: parseFloat(weightLb),
-        tire_size_inches: parseFloat(tireSizeInches),
-        nitrous_shot: parseFloat(nitrousShot),
-        engine_build: parseInt(engineBuild),
-      });
-      setResult(response.data.quarter_mile_time);
-    } catch (error) {
-      console.error('Error calculating quarter-mile time:', error);
+
+    if (power && weight) {
+      // Calculate effective power based on engine build type
+      let effectivePower = parseFloat(power) + parseFloat(nitrous || 0);
+      if (engineBuild === '1') {
+        // Stock: Subtract 5%
+        effectivePower *= 0.95;
+      } else if (engineBuild === '2') {
+        // Mildly Built: No adjustment
+        effectivePower = effectivePower;
+      } else if (engineBuild === '3') {
+        // Fully Built: Add 5%
+        effectivePower *= 1.05;
+      }
+
+      // Simple calculation for drag race performance (example formula)
+      const quarterMileTime = ((parseFloat(weight) / effectivePower) ** 0.333) * 5.825;
+      setPerformanceResult(quarterMileTime.toFixed(2));
     }
   };
 
   return (
     <div className="App">
       <h1>Isaac's Drag Race Performance Calculator</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Engine Power (HP):
-          <input type="number" value={powerHp} onChange={(e) => setPowerHp(e.target.value)} required />
-        </label>
-        <label>
-          Car Weight (LB):
-          <input type="number" value={weightLb} onChange={(e) => setWeightLb(e.target.value)} required />
-        </label>
-        <label>
-          Tire Size (Inches):
-          <input type="number" value={tireSizeInches} onChange={(e) => setTireSizeInches(e.target.value)} required />
-        </label>
-        <label>
-          Nitrous Shot (HP):
-          <input type="number" value={nitrousShot} onChange={(e) => setNitrousShot(e.target.value)} required />
-        </label>
-        <label>
-          Engine Build:
-          <select value={engineBuild} onChange={(e) => setEngineBuild(e.target.value)} required>
-            <option value="">Select...</option>
-            <option value="1">Stock</option>
-            <option value="2">Mildly Built</option>
-            <option value="3">Fully Built</option>
-          </select>
-        </label>
-        <button type="submit">Calculate</button>
-      </form>
-      {result && (
-        <div>
-          <h2>Estimated Quarter-Mile Time: {result} seconds</h2>
+
+      {/* Existing form for drag race calculations */}
+      <div className="calculator-form">
+        <form onSubmit={handleSubmit}>
+          <label>
+            Engine Power (HP):
+            <input
+              type="number"
+              value={power}
+              onChange={(e) => setPower(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Car Weight (LB):
+            <input
+              type="number"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Tire Size (Inches):
+            <input
+              type="number"
+              value={tireSize}
+              onChange={(e) => setTireSize(e.target.value)}
+            />
+          </label>
+          <label>
+            Nitrous Shot (HP):
+            <input
+              type="number"
+              value={nitrous}
+              onChange={(e) => setNitrous(e.target.value)}
+            />
+          </label>
+          <label>
+            Engine Build:
+            <select value={engineBuild} onChange={(e) => setEngineBuild(e.target.value)} required>
+              <option value="" disabled>
+                Choose
+              </option>
+              <option value="1">Stock</option>
+              <option value="2">Mildly Built</option>
+              <option value="3">Fully Built</option>
+            </select>
+          </label>
+          <button type="submit">Calculate Performance</button>
+        </form>
+      </div>
+
+      {/* Display performance result */}
+      {performanceResult && (
+        <div className="performance-result">
+          <h2>Estimated Quarter-Mile Time: {performanceResult} seconds</h2>
         </div>
+      )}
+
+      {/* Display reaction time on main calculator */}
+      {reactionTime && (
+        <div className="main-reaction-time-display">
+          Last Recorded Reaction Time: {reactionTime} seconds
+        </div>
+      )}
+
+      {/* Button to open Reaction Time Modal */}
+      <button onClick={openModal}>Test Your Reaction Time</button>
+
+      {/* Include Reaction Time Modal */}
+      {isModalOpen && (
+        <ReactionTimeModal
+          onReactionRecorded={handleReactionRecorded}
+          onClose={closeModal}
+        />
       )}
     </div>
   );
 }
 
 export default App;
+
+

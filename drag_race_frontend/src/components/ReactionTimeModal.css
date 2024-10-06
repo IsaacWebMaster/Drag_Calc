@@ -1,0 +1,138 @@
+/* Reaction Time Modal Styles */
+.modal {
+  display: flex;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s;
+}
+
+.modal-content {
+  background: #1e1e1e;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  color: #e0e0e0;
+  max-width: 500px;
+  width: 80%;
+  box-shadow: 0 0 20px #ff4d4d;
+  transition: transform 0.3s, box-shadow 0.5s;
+}
+
+.modal-content:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px #ff0000;
+}
+
+.countdown-display {
+  font-size: 2em;
+  color: #ffcc00; /* Yellow for the countdown */
+  margin: 20px 0;
+}
+
+.reaction-time-result {
+  font-size: 1.5em;
+  color: #00ff00; /* Green for success */
+  margin-top: 20px;
+  animation: glow 1.5s infinite alternate;
+}
+
+/* Light Indicator Styles */
+.light-indicator {
+  width: 50px;
+  height: 50px;
+  margin: 20px auto;
+  border-radius: 50%;
+  background-color: red; /* Default color */
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.light-indicator.green {
+  background-color: #00ff00;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+}
+
+.light-indicator.yellow {
+  background-color: #ffcc00;
+  box-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
+}
+
+/* Glow Animation for Reaction Time Result */
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+  }
+  100% {
+    text-shadow: 0 0 25px #1e90ff, 0 0 40px #1e90ff, 0 0 50px #1e90ff;
+  }
+}
+
+/* Close Button Styling */
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(145deg, #ff4d4d, #cc0000);
+  color: #ffffff;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: all 0.3s ease, transform 0.3s;
+  box-shadow: 0 8px 15px rgba(255, 77, 77, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+button:hover {
+  background: linear-gradient(145deg, #ff6666, #ff0000);
+  box-shadow: 0 12px 20px rgba(255, 77, 77, 0.7);
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* General Modal Container Hover Effect */
+.modal-container:hover .modal-content {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px #ff0000;
+}
+/* Redlit Message */
+.redlit-message {
+  color: #ff0000;
+  font-size: 1.2em;
+  margin-top: 15px;
+  animation: glowRed 1.5s infinite alternate;
+}
+
+/* Car Animation */
+.car-animation {
+  font-size: 3em;
+  animation: carLaunch 1.5s ease-in-out forwards;
+}
+
+/* Car Launch Animation */
+@keyframes carLaunch {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(300px);
+  }
+}
+
+/* Glow Red Animation */
+@keyframes glowRed {
+  0% {
+    text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
+  }
+  100% {
+    text-shadow: 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff0000;
+  }
+}
+
+  

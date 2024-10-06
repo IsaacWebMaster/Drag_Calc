@@ -1,12 +1,13 @@
-/* Cool Dark-themed style for the application */
+/* Ultra-Cool Dark-themed style for the application */
 body {
-  background: linear-gradient(135deg, #121212, #1e1e1e);
+  background: radial-gradient(circle at top left, #1a1a1a, #0d0d0d);
   color: #e0e0e0;
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   overflow-x: hidden;
+  transition: background 0.5s;
 }
 
 /* Main App Container */
@@ -16,13 +17,15 @@ body {
   padding: 30px;
   max-width: 600px;
   border-radius: 20px;
-  background: linear-gradient(145deg, #1e1e1e, #333333);
-  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.7), -5px -5px 15px rgba(255, 255, 255, 0.05);
-  transition: transform 0.3s;
+  background: linear-gradient(145deg, #252525, #3a3a3a);
+  box-shadow: 20px 20px 50px rgba(255, 0, 0, 0.4), -10px -10px 30px rgba(255, 77, 77, 0.2);
+  transition: transform 0.3s, box-shadow 0.5s;
+  animation: fadeIn 1s ease-in-out;
 }
 
 .App:hover {
-  transform: scale(1.02);
+  transform: scale(1.05);
+  box-shadow: 30px 30px 60px rgba(255, 0, 0, 0.6), -15px -15px 40px rgba(255, 77, 77, 0.3);
 }
 
 /* Form Styling */
@@ -30,80 +33,122 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(42, 42, 42, 0.9);
-  padding: 25px;
+  background: rgba(42, 42, 42, 0.85);
+  padding: 30px;
   border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(5px);
+  box-shadow: 0 15px 30px rgba(255, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  animation: slideIn 1.2s ease-in-out;
 }
 
 /* Label Styling */
 label {
   margin: 15px 0;
-  font-size: 1.2em;
+  font-size: 1.3em;
   color: #ffffff;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.7), 0 0 15px #ff4d4d;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+label:hover {
+  color: #ff4d4d;
+  text-shadow: 0 0 20px #ff4d4d, 0 0 30px #ff0000;
 }
 
 /* Input Field Styling */
 input, select {
   margin-top: 5px;
-  padding: 12px 15px;
-  border-radius: 10px;
+  padding: 15px 20px;
+  border-radius: 15px;
   border: none;
-  background: linear-gradient(145deg, #333, #444);
+  background: linear-gradient(145deg, #3b3b3b, #4a4a4a);
   color: #e0e0e0;
   width: 300px;
-  box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.7), inset -5px -5px 10px rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  box-shadow: inset 8px 8px 15px rgba(255, 0, 0, 0.3), inset -8px -8px 15px rgba(255, 77, 77, 0.2);
+  transition: all 0.4s ease;
 }
 
 input:focus, select:focus {
   outline: none;
-  border: 2px solid #1e90ff; /* Light blue border for focus */
-  background: linear-gradient(145deg, #444, #555);
+  border: 2px solid #ff4d4d;
+  background: linear-gradient(145deg, #4a4a4a, #5b5b5b);
+  box-shadow: 0 0 20px #ff4d4d;
 }
 
 /* Button Styling */
 button {
-  margin-top: 25px;
-  padding: 12px 25px;
+  margin-top: 30px;
+  padding: 15px 30px;
   border: none;
-  border-radius: 30px;
-  background: linear-gradient(145deg, #007acc, #005f99);
+  border-radius: 50px;
+  background: linear-gradient(145deg, #ff4d4d, #cc0000);
   color: #ffffff;
-  font-size: 1.1em;
+  font-size: 1.2em;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 15px rgba(0, 122, 204, 0.4);
+  transition: all 0.3s ease, transform 0.3s;
+  box-shadow: 0 10px 25px rgba(255, 77, 77, 0.5);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
+  animation: pulse 1.5s infinite alternate;
 }
 
 button:hover {
-  background: linear-gradient(145deg, #0088ff, #0066cc);
-  box-shadow: 0 12px 20px rgba(0, 122, 204, 0.6);
-  transform: translateY(-3px) scale(1.05);
+  background: linear-gradient(145deg, #ff6666, #ff0000);
+  box-shadow: 0 15px 30px rgba(255, 77, 77, 0.7);
+  transform: translateY(-5px) scale(1.1);
 }
 
 /* Quarter-Mile Time Result */
 h2 {
   margin-top: 30px;
-  color: #006BFF; /* Bright neon green for result */
+  color: #00ffcc; /* Bright cyan for result */
   font-weight: bold;
-  font-size: 1.7em;
-  text-shadow: 0 0 20px #006BFF;
+  font-size: 1.8em;
+  text-shadow: 0 0 20px #00ffcc, 0 0 30px #1e90ff;
   animation: glow 1.5s infinite alternate;
 }
 
 /* Glow Animation */
 @keyframes glow {
   0% {
-      text-shadow: 0 0 10px #006BFF, 0 0 20px #006BFF, 0 0 30px #006BFF;
+    text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #00ffcc;
   }
   100% {
-      text-shadow: 0 0 20px #3E3E3E, 0 0 30px #3E3E3E, 0 0 40px #3E3E3E;
-      
+    text-shadow: 0 0 25px #1e90ff, 0 0 40px #1e90ff, 0 0 50px #1e90ff;
+  }
+}
+
+/* Button Pulse Animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 10px 25px rgba(255, 77, 77, 0.5);
+  }
+  100% {
+    transform: scale(1.05);
+    box-shadow: 0 15px 30px rgba(255, 77, 77, 0.7);
+  }
+}
+
+/* Slide-in Animation for Form */
+@keyframes slideIn {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Fade-in Animation for Main App */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
@@ -114,25 +159,63 @@ fieldset {
   padding: 20px;
   margin-bottom: 20px;
   background: linear-gradient(145deg, #1e1e1e, #292929);
-  box-shadow: inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 5px 5px 15px rgba(255, 0, 0, 0.3), inset -5px -5px 10px rgba(255, 77, 77, 0.2);
+  animation: fadeIn 1s ease-in-out;
 }
 
 /* Responsive Design */
 @media (max-width: 600px) {
   .App {
-      padding: 15px;
+    padding: 20px;
   }
 
   form {
-      width: 90%;
-      padding: 15px;
+    width: 95%;
+    padding: 20px;
   }
 
   input, select {
-      width: 100%;
+    width: 100%;
   }
 
   button {
-      width: 100%;
+    width: 100%;
   }
 }
+.performance-result h2 {
+  font-size: 2rem;
+  color: #00ffcc; /* Bright cyan color */
+  text-shadow: 0 0 15px #00ffcc, 0 0 25px #ff0000; /* Cool glowing effect */
+  animation: glow 1.5s infinite alternate;
+  margin-top: 20px;
+}
+
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #ff0000;
+  }
+  100% {
+    text-shadow: 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #00ffcc;
+  }
+}
+/* Styling for performance result */
+.performance-result {
+  margin-top: 20px;
+  color: #ff0000; /* Change to red */
+  font-size: 1.8em; /* Larger font size for better visibility */
+  font-weight: bold;
+  text-shadow: 0 0 10px #ff0000; /* Red glow effect for cool look */
+  animation: glow 1.5s infinite alternate; /* Add glow animation */
+}
+
+/* Glow Animation */
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
+  }
+  100% {
+    text-shadow: 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff0000;
+  }
+}
+
+
