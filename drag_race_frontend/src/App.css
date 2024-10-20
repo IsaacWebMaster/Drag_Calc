@@ -234,5 +234,37 @@ fieldset {
       font-size: 14px;
   }
 }
+/* Mobile Styles */
+@media only screen and (max-width: 768px) {
+  .container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 10px;
+  }
+  
+  .input-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  button {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+  }
+}
+.reaction-time-button {
+  display: block;
+}
+
+.mobile-reaction-time-button {
+  display: none; /* Hidden by default */
+}
+
+@media only screen and (max-width: 768px) {
+  .mobile-reaction-time-button {
+    display: block;
+  }
+}
 
 

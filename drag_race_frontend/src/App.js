@@ -137,4 +137,23 @@ function App() {
 
 export default App;
 
+function isMobileDevice() {
+  return window.innerWidth <= 768;
+}
+
+function showMobileButton() {
+  const reactionTimeButton = document.querySelector('.reaction-time-button');
+  const mobileReactionTimeButton = document.querySelector('.mobile-reaction-time-button');
+
+  if (isMobileDevice()) {
+    mobileReactionTimeButton.style.display = 'block';
+    reactionTimeButton.style.display = 'none';
+  } else {
+    mobileReactionTimeButton.style.display = 'none';
+    reactionTimeButton.style.display = 'block';
+  }
+}
+
+window.onload = showMobileButton;
+window.onresize = showMobileButton;
 
