@@ -1,73 +1,48 @@
 import React, { useState, useEffect } from 'react';
 
-function ReactionTimeModal({ onClose }) {
-    const [isPreparing, setIsPreparing] = useState(true);
-    const [reactionTime, setReactionTime] = useState(null);
-    const [startTime, setStartTime] = useState(null);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [isMobile, setIsMobile] = useState(false);
+const ReactionTimeModal = ({ onClose }) => {
+  const [status, setStatus] = useState('Prepare...');
+  const [startTime, setStartTime] = useState(null);
+  const [reactionTime, setReactionTime] = useState(null);
+  const [waitingForGreen, setWaitingForGreen] = useState(false);
 
-    useEffect(() => {
-        // Detect if the user is on a mobile device
-        setIsMobile(window.innerWidth <= 768);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setStatus('Go!');
+      setStartTime(new Date().getTime());
+      setWaitingForGreen(true);
+    }, Math.random() * 3000 + 2000); // Random delay between 2-5 seconds
 
-        const prepareTimeout = setTimeout(() => {
-            setIsPreparing(false);
-            setStartTime(Date.now());
-        }, Math.random() * 3000 + 2000); // Random delay between 2-5 seconds for preparation
+    return () => clearTimeout(timeout);
+  }, []);
 
-        const handleKeyDown = (e) => {
-            if (e.code === 'Space' && !isPreparing) {
-                setReactionTime(Date.now() - startTime);
-            } else if (isPreparing) {
-                setErrorMessage('Wait for the light to turn green!');
-            }
-        };
+  const handleKeyDown = (event) => {
+    if (waitingForGreen && event.key === ' ') {
+      const endTime = new Date().getTime();
+      setReactionTime(endTime - startTime);
+      setStatus(`Your Reaction Time: ${endTime - startTime} ms`);
+      setWaitingForGreen(false);
+    }
+  };
 
-        // Add event listener for spacebar press
-        window.addEventListener('keydown', handleKeyDown);
-
-        return () => {
-            clearTimeout(prepareTimeout);
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [isPreparing, startTime]);
-
-    const handleMobilePress = () => {
-        if (!isPreparing) {
-            setReactionTime(Date.now() - startTime);
-        } else {
-            setErrorMessage('Wait for the light to turn green!');
-        }
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
     };
+  }, [waitingForGreen, startTime]);
 
-    return (
-        <div className="modal">
-            <h2>Test Your Reaction Time!</h2>
-            {reactionTime === null ? (
-                <>
-                    <p>{isPreparing ? 'Prepare...' : 'GO!'}</p>
-                    <div className="reaction-circle" />
-                    {isMobile && (
-                        <button className="mobile-button" onClick={handleMobilePress}>
-                            PUSH
-                        </button>
-                    )}
-                    <p className="error-message">{errorMessage}</p>
-                    <button className="close-button" onClick={onClose}>
-                        CLOSE
-                    </button>
-                </>
-            ) : (
-                <>
-                    <p>Your Reaction Time: {reactionTime} ms</p>
-                    <button className="close-button" onClick={onClose}>
-                        CLOSE
-                    </button>
-                </>
-            )}
-        </div>
-    );
-}
+  return (
+    <div className="reaction-time-modal">
+      <div className="modal-content">
+        <h2>Test Your Reaction Time!</h2>
+        <p>{status}</p>
+        {reactionTime === null && <div className="light red" />}
+        {reactionTime !== null && <div className="light green" />}
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+};
 
 export default ReactionTimeModal;
