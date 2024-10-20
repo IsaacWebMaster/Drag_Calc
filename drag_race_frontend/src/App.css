@@ -266,5 +266,26 @@ fieldset {
     display: block;
   }
 }
+.mobile-push-btn {
+  display: none; /* Hide by default */
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  font-size: 1.5rem;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .mobile-push-btn {
+    display: block; /* Show on mobile devices */
+  }
+}
 
 
