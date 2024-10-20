@@ -1,142 +1,73 @@
+import React, { useState, useEffect } from 'react';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import './ReactionTimeModal.css';
+function ReactionTimeModal({ onClose }) {
+    const [isPreparing, setIsPreparing] = useState(true);
+    const [reactionTime, setReactionTime] = useState(null);
+    const [startTime, setStartTime] = useState(null);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isMobile, setIsMobile] = useState(false);
 
-const ReactionTimeModal = ({ onClose, onReactionRecorded }) => {
-  const [countdown, setCountdown] = useState('Prepare...');
-  const [startTime, setStartTime] = useState(null);
-  const [reactionTime, setReactionTime] = useState(null);
-  const [isHoldingSpace, setIsHoldingSpace] = useState(false);
-  const [lightColor, setLightColor] = useState('red');
-  const [isReady, setIsReady] = useState(false); // Track readiness
-  const [redlight, setRedlight] = useState(false); // Track if the user redlit
-  const countdownIntervalRef = useRef(null); // Reference for the countdown interval
-  const timeoutRef = useRef(null); // Reference for the green light timeout
+    useEffect(() => {
+        // Detect if the user is on a mobile device
+        setIsMobile(window.innerWidth <= 768);
 
-  // Record reaction time
-  const recordReaction = useCallback(() => {
-    if (startTime && isReady) {
-      const endTime = new Date().getTime();
-      const reactionDuration = ((endTime - startTime) / 1000).toFixed(3);
-      console.log(`Reaction time recorded: ${reactionDuration} seconds`);
-      setReactionTime(reactionDuration);
-      onReactionRecorded(reactionDuration); // Pass reaction time to the main calculator
-      setStartTime(null);
-      setLightColor('red');
-      setCountdown('Prepare...');
-      setIsReady(false);
-    } else if (!isReady) {
-      console.log('You redlit!');
-      setRedlight(true);
-      setCountdown('You redlit! Hold spacebar to try again.');
-      setLightColor('red');
-      clearInterval(countdownIntervalRef.current); // Stop the countdown if redlit
-      clearTimeout(timeoutRef.current); // Stop any pending timeouts
-    } else {
-      console.log('Reaction not recorded because startTime is null.');
-    }
-  }, [startTime, isReady, onReactionRecorded]);
+        const prepareTimeout = setTimeout(() => {
+            setIsPreparing(false);
+            setStartTime(Date.now());
+        }, Math.random() * 3000 + 2000); // Random delay between 2-5 seconds for preparation
 
-  // Handle key press events
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.code === 'Space' && !isHoldingSpace) {
-        console.log('Spacebar pressed down');
-        setIsHoldingSpace(true);
-        if (redlight) {
-          // Reset redlight state and start countdown again
-          setRedlight(false);
-          startCountdown();
+        const handleKeyDown = (e) => {
+            if (e.code === 'Space' && !isPreparing) {
+                setReactionTime(Date.now() - startTime);
+            } else if (isPreparing) {
+                setErrorMessage('Wait for the light to turn green!');
+            }
+        };
+
+        // Add event listener for spacebar press
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            clearTimeout(prepareTimeout);
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isPreparing, startTime]);
+
+    const handleMobilePress = () => {
+        if (!isPreparing) {
+            setReactionTime(Date.now() - startTime);
         } else {
-          startCountdown(); // Start countdown on spacebar press
+            setErrorMessage('Wait for the light to turn green!');
         }
-      }
     };
 
-    const handleKeyUp = (event) => {
-      if (event.code === 'Space' && isHoldingSpace) {
-        console.log('Spacebar released');
-        setIsHoldingSpace(false);
-        recordReaction(); // Record reaction on spacebar release
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('keyup', handleKeyUp);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('keyup', handleKeyUp);
-    };
-  }, [isHoldingSpace, redlight, recordReaction]);
-
-  // Start countdown
-  const startCountdown = () => {
-    setCountdown('Get Ready...');
-    setLightColor('yellow');
-    setReactionTime(null);
-    setIsReady(false);
-    console.log('Countdown started, preparing...');
-    let count = 3;
-
-    countdownIntervalRef.current = setInterval(() => {
-      if (count > 0) {
-        console.log(`Countdown: ${count}`);
-        setCountdown(count);
-        count--;
-      } else {
-        clearInterval(countdownIntervalRef.current);
-        initiateReactionTest();
-      }
-    }, 1000);
-  };
-
-  // Initiate the reaction test phase
-  const initiateReactionTest = () => {
-    console.log('Initiating reaction test...');
-    setCountdown('Hold the spacebar...');
-    setLightColor('yellow');
-
-    // Set a 1-second delay before turning green
-    timeoutRef.current = setTimeout(() => {
-      setCountdown('GO!');
-      setLightColor('green');
-      const time = new Date().getTime();
-      setStartTime(time);
-      setIsReady(true);
-      console.log('Timer started, startTime set:', time);
-    }, 1000);
-  };
-
-  return (
-    <div className="modal-container">
-      <div className="modal">
-        <div className="modal-content">
-          <h2>Test Your Reaction Time!</h2>
-          <div
-            className="countdown-display"
-            style={{
-              color: countdown === 'GO!' ? '#00ff00' : '#ffcc00',
-            }}
-          >
-            {countdown}
-          </div>
-          <div
-            className="light-indicator"
-            style={{
-              backgroundColor: lightColor,
-            }}
-          ></div>
-          <p>Press and hold the spacebar, then release when the light turns green!</p>
-          {reactionTime && (
-            <div className="reaction-time-result">
-              Your Reaction Time: {reactionTime} seconds
-            </div>
-          )}
-          <button onClick={onClose}>Close</button>
+    return (
+        <div className="modal">
+            <h2>Test Your Reaction Time!</h2>
+            {reactionTime === null ? (
+                <>
+                    <p>{isPreparing ? 'Prepare...' : 'GO!'}</p>
+                    <div className="reaction-circle" />
+                    {isMobile && (
+                        <button className="mobile-button" onClick={handleMobilePress}>
+                            PUSH
+                        </button>
+                    )}
+                    <p className="error-message">{errorMessage}</p>
+                    <button className="close-button" onClick={onClose}>
+                        CLOSE
+                    </button>
+                </>
+            ) : (
+                <>
+                    <p>Your Reaction Time: {reactionTime} ms</p>
+                    <button className="close-button" onClick={onClose}>
+                        CLOSE
+                    </button>
+                </>
+            )}
         </div>
-      </div>
-    </div>
-  );
-};
+    );
+}
 
+export default ReactionTimeModal;
