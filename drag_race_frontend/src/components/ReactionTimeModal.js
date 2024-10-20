@@ -1,3 +1,46 @@
+import React, { useState } from 'react';
+
+const ReactionTimeModal = ({ onReactionRecorded, onClose }) => {
+    const [isPressed, setIsPressed] = useState(false);
+
+    // Function to start the reaction time test (same as spacebar)
+    const handleStartTest = () => {
+        // Start the reaction time test logic here
+        console.log("Reaction time test started!");
+    };
+
+    // Detect if the user is on mobile
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
+    return (
+        <div className="reaction-modal">
+            <h2>Test Your Reaction Time!</h2>
+            <p>Prepare...</p>
+            <div className="circle"></div>
+            {isMobile ? (
+                <button
+                    className="push-button"
+                    onTouchStart={() => setIsPressed(true)}
+                    onTouchEnd={() => {
+                        setIsPressed(false);
+                        handleStartTest();
+                    }}
+                >
+                    PUSH
+                </button>
+            ) : (
+                <p>Press and hold the spacebar, then release when the light turns green!</p>
+            )}
+            <button className="close-button" onClick={onClose}>CLOSE</button>
+        </div>
+    );
+};
+
+export default ReactionTimeModal;
+
+
+
+
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './ReactionTimeModal.css';
 
@@ -138,8 +181,4 @@ const ReactionTimeModal = ({ onClose, onReactionRecorded }) => {
     </div>
   );
 };
-
-export default ReactionTimeModal;
-
-
 
